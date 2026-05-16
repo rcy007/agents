@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 <!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+## This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
@@ -13,15 +13,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Always run lint and tsc to confirm there are no errors, at the end of any task.
 - Checkpoint requests = empty commit and push with a concise message that starts with "Checkpoint- " (do not start with *Agent*-). It only means that! Stupid cursor, please never try to implement what I wrote in checkpoint without taking permission!
 - Never commit or push unless explicitly requested (e.g., "Commit Push"), except for explicit Checkpoint requests or when required by the Linear workflow rules in this file.
-- "Copy Plan" = copy the current plan file to `others/agent-plans/`
-- "Sync Linear" = Get status and descriptions of all Linear issues in your context! (follow `LINEAR.md`).
 - Before any commit, post a summary comment on the relevant Linear issue(s) and update status/properties when applicable (follow `LINEAR.md`).
-- Before any commit, add a summary comment to `PRO-329` (Agent Updates) covering what happened in the session (follow `LINEAR.md`).
 - When the user mentions any "pro-*" issue (e.g., PRO-123) and it's not already in context, fetch it via Linear MCP / plugin immediately to avoid spending time inferring context.
-- Linear status flow: when picking up a task, first move it to **Planning** (scoping/clarify). Move to **In Progress** the moment actual implementation starts (just before the first code change, migration, or real execution). After work (and before commit/push), set status to **Done** if complete, **In Review** if partially complete but quality is lacking, or **In Progress** if no acceptable version was achieved; then ask the user to confirm/override (e.g., move to **Needs Revamp**).
 - When copying/duplicating files, ALWAYS use `cp` command. NEVER re-generate file contents using write tool - that wastes expensive output tokens!
 - Never run `pnpm db:push` or `drizzle-kit push`. Always, only migrate! And that too after taking explicit permission.
-- Git/worktree workflow: always operate in the currently checked-out branch/worktree. Never assume branch `codex`. Do not create/switch branches or worktrees unless explicitly requested by the user.
+- Git/worktree workflow: always operate in the currently checked-out branch/worktree. Do not create/switch branches or worktrees unless explicitly requested by the user.
 - Push target rule: when push is explicitly requested, push the current branch to its matching remote branch (default: `origin/<current-branch>`).
 - Always stage files using `git add -A` (never stage individual files). This ensures all changes including package.json, pnpm-lock.yaml, and other modified files are included.
 - Only skim commit messages if history is likely relevant (schema/large refactor); otherwise skip.
@@ -29,19 +25,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
   - `LINEAR.md`: Linear sync workflow and rules (Linear is the source of truth; follow it before/after work).
   - `PROJECT.md`: Idea dump and long-term vision, only reading is allowed; never edit this file itself.
   
-- Commits authored by Codex must start with `Codex- `
-- Commits authored by Cursor / Composer1 agent must start with `Cursor- `
-- Commits authored by Claude agent must start with `Claude- `
-- Commits that ONLY have edits/updates made by the user must start with `Ricky- ` (and should not include agent co-authored-by trailers).
-- **Co-authored-by trailers**: All agent-authored commits MUST include a `Co-authored-by` trailer in the commit message to enable GitLens to identify agent-authored changes. Format: blank line before trailers, then one trailer per line:
-  - Codex commits: `Co-authored-by: Codex <codex@local>`
-  - Cursor commits: `Co-authored-by: Cursor Agent <cursor@local>`
-  - Claude commits: `Co-authored-by: Claude Code <claude-code@local>`
-
+- Commits authored by agent must start with `Agent- `
+- **Co-authored-by trailers**: All agent-authored commits MUST include a `Co-authored-by` trailer in the commit message to enable GitLens to identify agent-authored changes.
 - Example of a complete Commit message:
 
   ```text
-  Codex-Refactor holdings schema and transaction sources
+  Claude- Refactor holdings schema and transaction sources
 
   Co-authored-by: Codex <codex@local>
   ```
@@ -99,13 +88,6 @@ Meanwhile; sycophancy in delivering projects always leads to a sub-par performan
 
 Thus, choosing confidence (with ownership), accepting mistakes, feeling proud on appraisals and approvals, always working with an intent to also learn, always trying to somewhat remember the learnings from past mistakes ... is inherently the better approach. To life, and to everything in the Universe.
 
-### Creating / working with Plans you generate
-
-Once asked / approved the plan to build, as a first step always copy it (using cp command) to the others/plans folder. Name it's file something relevant but really concise; do not name it as your fancy naming convention. Do not overwrite older plan files though.
-
-Once you are done implementing a plan, you will always create an md file in others/implementations folder, giving a thorough description of the implementation.
-If the user asks for further code changes; related to this plan; after implmenting those changes, you will also update the implementation md file you created earlier (for that plan! Do not mess older plan/impl files).
-
 ### Commit Guidelines
 
 While commiting always use: `git add -A`
@@ -121,7 +103,7 @@ These commands are specific workflows that should only be executed when the user
 
 #### Commit
 
-Means you will append a concise descriptions of the changes / updates made to others/changes/agentUpdates.md and then you will commit with a short concise message. You will never push, unless explicitely asked using the Command: Push to remote. Only commit to the current branch. If the changes are big, you can read through the whole file to get to know about the relevant history, else you will append using cat << EOF >> . Please make sure you put sufficient space, eols, and a new datetime text in the beginning of your appends!
+You will commit with a short concise message. You will never push, unless explicitely asked using the Command: Push to remote. Only commit to the current branch.
 
 #### Add concern
 
@@ -181,3 +163,5 @@ Squash all unpushed local commits into one clean commit and push to the tracking
 - Communication: After any code edit, summarize the change concisely (what/why/where) so reviewers/users know exactly what was done.
 - Do not open or suggest opening a PR by default. Open/create a PR only when the user explicitly asks (e.g., "Open PR", "Raise PR").
 - If a PR is not explicitly requested, only provide PR-ready artifacts on request (title, summary, test notes, checklist).
+
+## Project Structure

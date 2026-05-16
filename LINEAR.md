@@ -3,8 +3,12 @@
 ## Source of Truth
 
 Linear is the **primary source of truth**.
-Do **not** call Linear MCP at the beginning just to check current status or list tasks. Only query Linear for the specific task you are working on (or when explicitly told to "Sync Linear"). Update Linear at the end of significant work (right before commit/push when requested).
-When you need to fetch a specific task, use `list_issues` with `query` (task text) and narrow with `team`/`project`/`parentId`/`state`, then call `get_issue` with the returned ID for full details.
+Do **not** call Linear MCP at the beginning just to check current status or list tasks. Only query Linear for the specific task you are working on.
+When you need to fetch a specific task:
+
+- If you already know the identifier (e.g. `PRO-123`), call `get_issue` directly with that identifier — no search step needed.
+- If you only have a description, use `list_issues` with `query` (task text) and narrow with `team`/`project`/`parentId`/`state`, then `get_issue` on the match.
+- For the comment thread, call `list_comments` separately — `get_issue` returns metadata only.
 
 ## Project + Team
 
@@ -13,19 +17,15 @@ When you need to fetch a specific task, use `list_issues` with `query` (task tex
 - Team: `Founding Team`
 - Team ID: `fd2fcb14-53a4-4416-9cfd-3070da6c7f88`
 
-## Milestones (UUIDs)
+## Milestones
 
 Create Milestones only when explicitely asked to.
 
-## Agent Updates Issue
+## Hierarchy
 
-- Agent updates issue: `PRO-329`
-
-## Hierarchy (Required)
-
-- Section issues are the **parent** of their task issues.
-- Tasks should not be attached directly to milestone issues.
-- Keep the hierarchy consistent when creating/moving issues in Linear.
+- Pick the shallowest grouping that still makes the project navigable.
+- Be consistent within a project — don't mix depths.
+- Ask before introducing a new layer (milestone, section/parent issue).
 
 ## Status Mapping
 
@@ -44,35 +44,18 @@ Create Milestones only when explicitely asked to.
 
 Notes:
 
-- Tasks are typically `Todo`.
-- Sections and milestone issues are typically `Backlog` unless fully complete.
 - Use `In Review` when work is paused for later revisit or advanced review.
 - Use `Needs Revamp` when the feature works but does not meet the quality bar.
 
-## Priority + Estimate Rules
+## Priority, Estimates, Labels
 
-- Priorities are set relative to milestone urgency and task complexity.
-- Estimates use Linear’s 1–5 scale (1 = trivial, 5 = complex / multi-step).
-- Do **not** default everything to the same value.
-- Use `Feature` vs `Improvement` labels based on scope (new capability vs refinements).
+- Don't default everything to the same priority/estimate — differentiate.
+- Use `Feature` vs `Improvement` labels based on scope (only if the project uses them).
 
-## Sync Workflow (Required)
+## Status Transitions
 
-## Default Agent Workflow (Preferred)
-
-1. Start when user asks to create/select an issue/task.
-2. If more detail is needed, retrieve only the specific Linear issue for that task.
-3. When starting work, move the task to **Planning** (scoping/clarify only). Move to **In Progress** the moment actual implementation starts (just before the first code change, migration, or real execution).
-4. At the end (before commit/push), set status to **Done** if complete, **In Review** if partially complete but quality is lacking, or **In Progress** if no acceptable version was achieved.
-5. Then ask the user to **confirm/override the final status** (e.g., move to **Needs Revamp**).
-6. If the user overrides, immediately update the issue status in Linear to the requested state.
-
-## Agent Comment Prefix (Required)
-
-- Any agent-authored content in Linear must start with `Agent- ` (comments, updates, notes).
-- Do **not** prefix issue titles with `Agent- `.
-- Significant progress should be captured as a comment on `PRO-329` (Agent Updates).
-- Issue comments should be reserved for **issue-specific** updates only.
+- On pickup: move to **Planning** (scoping). Move to **In Progress** the moment real implementation begins.
+- On finish: see *Issue Completion Requirements* below for the close-out flow.
 
 ## Chat Reporting Requirements (Required)
 
@@ -92,7 +75,7 @@ Update the relevant Linear issue(s): status, notes, estimate/priority if needed.
 
 ### When marking an issue as Done
 
-1. **Add a completion comment** to the specific issue (not just PRO-329) explaining:
+1. **Add a completion comment** to the specific issue explaining:
    - What was done to complete it
    - How it was accomplished (approach, tools, techniques)
    - Key files changed or created
