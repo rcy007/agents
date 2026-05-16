@@ -1,0 +1,22 @@
+{
+  "name": "@rcy007/agents",
+  "version": "0.1.0",
+  "description": "Drop curated AGENTS.md / CLAUDE.md / LINEAR.md into the current directory.",
+  "bin": {
+    "agents": "bin/agents.mjs"
+  },
+  "files": ["bin"],
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcy007/agents.git"
+  },
+  "homepage": "https://github.com/rcy007/agents#readme",
+  "license": "MIT",
+  "keywords": ["agents", "claude", "linear", "scaffold", "cli"],
+  "publishConfig": { "access": "public" }
+}
