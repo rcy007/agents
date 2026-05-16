@@ -13,9 +13,7 @@ When you need to fetch a specific task:
 ## Project + Team
 
 - Project: `Investing`
-- Project ID: `e76941ca-f38e-49d2-b363-6f2e40fc8e4f`
 - Team: `Founding Team`
-- Team ID: `fd2fcb14-53a4-4416-9cfd-3070da6c7f88`
 
 ## Milestones
 
