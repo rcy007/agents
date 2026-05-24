@@ -55,6 +55,33 @@ Notes:
 - On pickup: move to **Planning** (scoping). Move to **In Progress** the moment real implementation begins.
 - On finish: see *Issue Completion Requirements* below for the close-out flow.
 
+## GitHub Workflow
+
+Use Linear's GitHub integration to keep issues and PRs linked:
+
+- Prefer branches copied from the Linear issue (`Cmd/Ctrl` + `Shift` + `.`) so the branch name includes the issue ID.
+- If the branch was not copied from Linear, include the issue ID in the PR title, e.g. `PRO-123`.
+- For status-closing work, include a closing magic word plus the issue ID in the PR title or description, e.g. `Fixes PRO-123`.
+- If the bare issue ID does not link cleanly, use the full Linear issue URL as the fallback, e.g. `Fixes https://linear.app/lich/issue/PRO-123/title`.
+- For related-but-not-closing work, use a non-closing magic word, e.g. `Refs PRO-123` or `Related to PRO-123`.
+- Magic words in PR comments do not link issues; put them in the PR title or description.
+- Multiple Linear issues can be linked from one PR description, e.g. `Fixes PRO-123, PRO-124`.
+- Multiple PRs can link to one Linear issue; Linear waits for the final linked PR to reach the configured workflow state before applying the resulting issue status transition.
+
+Closing magic words:
+
+`close`, `closes`, `closed`, `closing`, `fix`, `fixes`, `fixed`, `fixing`, `resolve`, `resolves`, `resolved`, `resolving`, `complete`, `completes`, `completed`, `completing`, `implements`, `implemented`, `implementing`.
+
+Non-closing magic words:
+
+`ref`, `refs`, `references`, `part of`, `related to`, `contributes to`, `toward`, `towards`.
+
+Automation notes:
+
+- Closing magic words move linked issues through the configured PR/commit workflow, including completion when merged to the default branch.
+- Non-closing magic words still link the PR and can move issues through earlier workflow states, but do not auto-complete the issue on merge.
+- Team-level PR automation is configured in Linear under issue statuses and automations; defaults usually move linked issues to **In Progress** when PRs open and **Done** when PRs merge.
+
 ## Chat Reporting Requirements (Required)
 
 - After any Linear update, report back in chat with:
